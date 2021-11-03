@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,16 +23,7 @@ Route::get('/', function () {
 Route::post('/', function() {
     $q = request('q');
 
-    $client = new GuzzleHttp\Client();
-
-    $response = $client
-        ->get("https://api-adresse.data.gouv.fr/search/?q=".http_build_query(compact('q')))
-        ->getBody()
-        ->getContents();
-
-    $data = json_decode($response, true);
-
-
+    $data = Http::get("https://api-adresse.data.gouv.fr/search/?q=".http_build_query(compact('q')))->json();
 
     return view('welcome', [
         'data' => $data

@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Http\Client\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +17,22 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::post('/', function() {
+    $q = request('q');
+
+    $ch = curl_init();
+
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_URL => 'https://api-adresse.data.gouv.fr/search/?q='.http_build_query(compact('q')),
+    ]);
+
+    $data = json_decode(curl_exec($ch), true);
+    curl_close($ch);
+
+    return view('welcome', [
+        'data' => $data
+    ]);
 });

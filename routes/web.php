@@ -22,15 +22,16 @@ Route::get('/', function () {
 Route::post('/', function() {
     $q = request('q');
 
-    $ch = curl_init();
+    $client = new GuzzleHttp\Client();
 
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_URL => 'https://api-adresse.data.gouv.fr/search/?q='.http_build_query(compact('q')),
-    ]);
+    $response = $client
+        ->get("https://api-adresse.data.gouv.fr/search/?q=".http_build_query(compact('q')))
+        ->getBody()
+        ->getContents();
 
-    $data = json_decode(curl_exec($ch), true);
-    curl_close($ch);
+    $data = json_decode($response, true);
+
+
 
     return view('welcome', [
         'data' => $data

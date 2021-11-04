@@ -15,20 +15,10 @@
         </style>
     </head>
     <body class="antialiased">
-        <form action="" method="post">
-            @csrf()
-            <input type="text" name="q" class="border border-black">
-            <button type="submit">rechercher</button>
-        </form>
+        <div class="container mx-auto" id="app">
+            <blog></blog>
+        </div>
 
-        @if(isset($data))
-            <table>
-                @foreach($data['features'] as $feature)
-                <tr>
-                    <td>{{ $feature['properties']['label'] }}</td>
-                </tr>
-                @endforeach
-            </table>
-        @endif
+        <script src="{{ mix('js/app.js') }}"></script>
     </body>
 </html>

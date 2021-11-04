@@ -29,3 +29,26 @@ Route::post('/', function() {
         'data' => $data
     ]);
 });
+
+Route::get('/graphql', function() {
+    $query = <<<GQL
+query {
+    characters(filter:{name:"rick"}) {
+      info {
+        count,pages
+      },
+      results {
+        name,gender
+      }
+    }
+  }
+GQL;
+
+    $response = Http::withHeaders([
+        'Content-Type' => 'application/json',
+    ])->post('https://rickandmortyapi.com/graphql', [
+        'query' => $query
+    ]);
+
+    return $response->json();
+});

@@ -2311,10 +2311,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Index",
   data: function data() {
     return {
+      current: null,
       posts: []
     };
   },
@@ -2335,7 +2351,15 @@ __webpack_require__.r(__webpack_exports__);
         axios["delete"]("/api/posts/".concat(post.id)).then(this.fetch);
       }
     },
-    edit: function edit(post) {}
+    edit: function edit(post) {},
+    show: function show(post) {
+      var _this2 = this;
+
+      axios.get("/api/posts/".concat(post.id)).then(function (_ref2) {
+        var data = _ref2.data;
+        return _this2.current = data;
+      });
+    }
   }
 });
 
@@ -20280,56 +20304,108 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("table", { staticClass: "w-full" }, [
-    _vm._m(0),
-    _vm._v(" "),
-    _c(
-      "tbody",
-      _vm._l(_vm.posts, function (post) {
-        return _c("tr", [
-          _c("td", { domProps: { textContent: _vm._s(post.id) } }),
-          _vm._v(" "),
-          _c("td", { domProps: { textContent: _vm._s(post.title) } }),
-          _vm._v(" "),
-          post.published
-            ? _c("td", [_vm._v("Oui")])
-            : _c("td", [_vm._v("Oui")]),
-          _vm._v(" "),
-          _c("td", { staticClass: "text-right" }, [
-            _c(
-              "button",
-              {
-                staticClass: "bg-red-500 text-white px-6 py-2 rounded",
-                attrs: { type: "button" },
-                on: {
-                  click: function ($event) {
-                    $event.preventDefault()
-                    return _vm.remove(post)
-                  },
-                },
-              },
-              [_vm._v("Supprimer")]
-            ),
+  return _c("div", [
+    _c("table", { staticClass: "w-full" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c(
+        "tbody",
+        _vm._l(_vm.posts, function (post) {
+          return _c("tr", [
+            _c("td", { domProps: { textContent: _vm._s(post.id) } }),
             _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "bg-green-500 text-white px-6 py-2 rounded",
-                attrs: { type: "button" },
-                on: {
-                  click: function ($event) {
-                    $event.preventDefault()
-                    return _vm.edit(post)
+            _c("td", { domProps: { textContent: _vm._s(post.title) } }),
+            _vm._v(" "),
+            post.published
+              ? _c("td", [_vm._v("Oui")])
+              : _c("td", [_vm._v("Oui")]),
+            _vm._v(" "),
+            _c("td", { staticClass: "text-right" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "bg-gray-100 text-black px-6 py-2 rounded",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function ($event) {
+                      $event.preventDefault()
+                      return _vm.show(post)
+                    },
                   },
                 },
-              },
-              [_vm._v("Editer")]
-            ),
-          ]),
-        ])
-      }),
-      0
-    ),
+                [_vm._v("Voir\n        ")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "bg-red-500 text-white px-6 py-2 rounded",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function ($event) {
+                      $event.preventDefault()
+                      return _vm.remove(post)
+                    },
+                  },
+                },
+                [_vm._v("\n          Supprimer\n        ")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "bg-green-500 text-white px-6 py-2 rounded",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function ($event) {
+                      $event.preventDefault()
+                      return _vm.edit(post)
+                    },
+                  },
+                },
+                [_vm._v("Editer\n        ")]
+              ),
+            ]),
+          ])
+        }),
+        0
+      ),
+    ]),
+    _vm._v(" "),
+    _vm.current
+      ? _c(
+          "div",
+          {
+            staticClass:
+              "fixed w-1/3 top-0 mt-5 bg-white border border-black p-10",
+          },
+          [
+            _c("h1", {
+              staticClass: "text-xl bold mb-5",
+              domProps: { textContent: _vm._s(_vm.current.title) },
+            }),
+            _vm._v(" "),
+            _c("div", { domProps: { innerHTML: _vm._s(_vm.current.content) } }),
+            _vm._v(" "),
+            _c("div", { staticClass: "text-center" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "bg-purple-500 text-white px-6 py-2 rounded",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function ($event) {
+                      $event.preventDefault()
+                      _vm.current = null
+                    },
+                  },
+                },
+                [_vm._v("Fermer\n      ")]
+              ),
+            ]),
+          ]
+        )
+      : _vm._e(),
   ])
 }
 var staticRenderFns = [
